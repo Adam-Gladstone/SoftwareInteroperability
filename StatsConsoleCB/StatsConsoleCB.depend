@@ -1,0 +1,72 @@
+# depslib dependency file v1.0
+1679763069 source:d:\development\projects\c++\softwareinteroperability\statsconsolecb\main.cpp
+	<iostream>
+	<string>
+	<vector>
+	<utility>
+	<unordered_map>
+	"..\Common\include\StatisticsLibrary.h"
+	"..\Common\include\DescriptiveStatistics.h"
+	"..\Common\include\DataManager.h"
+	"..\Common\include\StatisticalTests.h"
+
+1628608828 d:\development\projects\c++\softwareinteroperability\common\include\stats.h
+	<vector>
+	<string>
+	<utility>
+	<unordered_map>
+
+1678010855 d:\development\projects\c++\softwareinteroperability\common\include\descriptivestatistics.h
+	<vector>
+
+1678010855 d:\development\projects\c++\softwareinteroperability\common\include\datamanager.h
+	<string>
+	<vector>
+	<utility>
+	<unordered_map>
+
+1678010855 d:\development\projects\c++\softwareinteroperability\common\include\statisticaltests.h
+	<vector>
+	<string>
+	<utility>
+	<unordered_map>
+
+1625077653 source:d:\development\projects\c++\softwareinteroperabilityexs\statsconsolecb\main.cpp
+	<iostream>
+	<string>
+	<vector>
+	<utility>
+	<unordered_map>
+	"..\Common\include\Stats.h"
+	"..\Common\include\DescriptiveStatistics.h"
+	"..\Common\include\DataManager.h"
+	"..\Common\include\StatisticalTests.h"
+
+1628953297 d:\development\projects\c++\softwareinteroperabilityexs\common\include\stats.h
+	<vector>
+	<string>
+	<utility>
+	<unordered_map>
+
+1629826361 d:\development\projects\c++\softwareinteroperabilityexs\common\include\descriptivestatistics.h
+	<vector>
+
+1628953297 d:\development\projects\c++\softwareinteroperabilityexs\common\include\datamanager.h
+	<string>
+	<vector>
+	<utility>
+	<unordered_map>
+
+1630836576 d:\development\projects\c++\softwareinteroperabilityexs\common\include\statisticaltests.h
+	<vector>
+	<string>
+	<utility>
+	<unordered_map>
+
+1678010855 d:\development\projects\c++\softwareinteroperability\common\include\statisticslibrary.h
+	<vector>
+	<string>
+	<utility>
+	<unordered_map>
+	"DescriptiveStatistics.h"
+
