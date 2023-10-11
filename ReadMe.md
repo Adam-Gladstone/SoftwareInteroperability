@@ -34,12 +34,14 @@ The following projects build and distribute a windows runtime component: *Statis
 * __StatisticsLibrary__
 * __StatisticsLibraryWRC__
 * __StatisticsLibraryProjection__
-This project is described here [StatisticsLibrary](https://github.com/Adam-Gladstone/SoftwareInteroperability/README-StatisticsLibrary.md)
+
+This project is described here [StatisticsLibrary](README-StatisticsLibrary.md)
 
 The following projects consume the *StatisticsLibraryWRC* component
 * __StatisticsConsole__
 * __StatisticsViewerWinUI__
-This project is described here [StatisticsViewer](https://github.com/Adam-Gladstone/SoftwareInteroperability/README-StatisticsViewer.md)
+
+This project is described here [StatisticsViewer](README-StatisticsViewer.md)
 
 ## Features
 The wrapper components make use of:
