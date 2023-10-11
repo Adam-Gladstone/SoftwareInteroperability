@@ -1,0 +1,15 @@
+// MIDL data types: https://docs.microsoft.com/en-us/uwp/midl-3/intro
+
+
+namespace StatisticsLibraryWRC
+{
+    [default_interface]
+    runtimeclass ANOVA
+    {
+		ANOVA(Windows.Foundation.Collections.IVector<Double> x1, Windows.Foundation.Collections.IVector<Double> x2, Windows.Foundation.Collections.IVector<Double> x3);
+
+        Boolean Perform();
+
+        Windows.Foundation.Collections.IMap<String, Double> Results();
+    }
+}

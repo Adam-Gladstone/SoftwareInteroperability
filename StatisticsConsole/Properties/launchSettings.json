@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "StatisticsConsole": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

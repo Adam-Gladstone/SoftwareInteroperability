@@ -1,0 +1,32 @@
+﻿<Page
+    x:Class="StatisticsViewerWinUI.Dialogs.DataSetSelectDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:StatisticsViewerWinUI.Dialogs"
+    xmlns:model="using:StatisticsViewerWinUI.Model"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <DataTemplate x:Key="DataSetViewTemplate" x:DataType="model:DataSet">
+            <TextBlock Text="{x:Bind Path=Name}"/>
+        </DataTemplate>
+    </Page.Resources>
+
+    <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <ListView
+            x:Name="lvDataSets"
+            ItemTemplate="{StaticResource DataSetViewTemplate}"
+            ItemsSource="{x:Bind ViewModel.DataSetNames, Mode=TwoWay}"
+            SelectionMode="Multiple"
+            BorderThickness="1"
+            BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+            HorizontalAlignment="Left"
+            SelectionChanged="lvDataSets_SelectionChanged">
+        </ListView>
+
+    </StackPanel>
+
+</Page>

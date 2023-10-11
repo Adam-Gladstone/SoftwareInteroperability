@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "StatisticsViewerWinUI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "StatisticsViewerWinUI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

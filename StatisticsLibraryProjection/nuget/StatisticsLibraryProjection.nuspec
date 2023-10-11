@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>StatisticsLibraryWRC</id>
+    <version>0.1.0-prerelease</version>
+    <authors>Adam Gladstone</authors>
+    <description>A simple component to calculate statistics and perform statistical tests.</description>
+    <dependencies>
+      <group targetFramework="net6.0-windows10.0.22000.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <!--Architecture-netural assemblies-->
+    <!--<file src="..\..\_build\AnyCPU\Release\StatisticsLibraryProjection\bin\StatisticsLibraryProjection.dll" 
+          target="lib\net6.0-windows10.0.22000.0\StatisticsLibraryProjection.dll" />-->
+
+    <file src="..\..\_build\AnyCPU\Debug\StatisticsLibraryProjection\bin\StatisticsLibraryProjection.dll"
+          target="lib\net6.0-windows10.0.22000.0\StatisticsLibraryProjection.dll" />
+
+    <!--Architecture-specific implementation DLLs should be copied into RID-relative folders-->
+    <!--<file src="..\..\_build\x64\Release\StatisticsLibraryWRC\bin\StatisticsLibraryWRC\StatisticsLibraryWRC.dll" 
+          target="runtimes\win10-x64\native\StatisticsLibraryWRC.dll" />-->
+    
+    <file src="..\..\_build\x64\Debug\StatisticsLibraryWRC\bin\StatisticsLibraryWRC\StatisticsLibraryWRC.dll"
+          target="runtimes\win10-x64\native\StatisticsLibraryWRC.dll" />
+  </files>
+</package>

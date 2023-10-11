@@ -30,8 +30,21 @@ A brief description of the contents of each directory is as follows:
 * __StatsR__ is the Rcpp wrapper, built using Rtools via RStudio. 
 * __StatsViewer__ is a Windows MFC application. This application is used to demonstrate using the functionality available in the statistics library in a GUI application.
 
+The following projects build and distribute a windows runtime component: *StatisticsLibraryWRC*
+* __StatisticsLibrary__
+* __StatisticsLibraryWRC__
+* __StatisticsLibraryProjection__
+This project is described here [StatisticsLibrary](https://github.com/Adam-Gladstone/SoftwareInteroperability/README-StatisticsLibrary.md)
+
+The following projects consume the *StatisticsLibraryWRC* component
+* __StatisticsConsole__
+* __StatisticsViewerWinUI__
+This project is described here [StatisticsViewer](https://github.com/Adam-Gladstone/SoftwareInteroperability/README-StatisticsViewer.md)
+
 ## Features
 The wrapper components make use of:
 * C++/CLI for connecting to C# (.NET).
 * Rcpp for connecting to R.
 * Boost.Python and PyBind for connecting to Python.
+* WinRT/C++ for connecting a C# WinUI3.0 desktop application to a C++ static library.
+

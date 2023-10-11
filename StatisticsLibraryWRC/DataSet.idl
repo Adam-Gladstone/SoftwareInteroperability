@@ -1,0 +1,15 @@
+// DataSet.idl
+
+// MIDL data types: https://docs.microsoft.com/en-us/uwp/midl-3/intro
+
+namespace StatisticsLibraryWRC
+{
+    runtimeclass DataSet
+    {
+        DataSet();
+
+        String Name;
+
+        UInt64 Size;
+    }
+}

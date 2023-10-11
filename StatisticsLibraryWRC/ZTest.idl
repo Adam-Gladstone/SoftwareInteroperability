@@ -1,0 +1,19 @@
+// MIDL data types: https://docs.microsoft.com/en-us/uwp/midl-3/intro
+
+
+namespace StatisticsLibraryWRC
+{
+    [default_interface]
+    runtimeclass ZTest
+    {
+		ZTest(Double mu0, Double x_bar, Double sx, Double n);
+
+		ZTest(Double mu0, Windows.Foundation.Collections.IVector<Double> x1);
+
+		ZTest(Windows.Foundation.Collections.IMap<String, Windows.Foundation.Collections.IVector<Double> > data);
+
+        Boolean Perform();
+
+        Windows.Foundation.Collections.IMap<String, Double> Results();
+    }
+}

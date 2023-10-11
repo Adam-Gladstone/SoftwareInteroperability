@@ -1,0 +1,26 @@
+// DataManager.idl
+
+// MIDL data types: https://docs.microsoft.com/en-us/uwp/midl-3/intro
+
+import "DataSet.idl";
+
+namespace StatisticsLibraryWRC
+{
+    [default_interface]
+    runtimeclass DataManager
+    {
+        DataManager();
+
+        UInt64 CountDataSets{ get; };
+
+        Boolean Add(String name, Windows.Foundation.Collections.IVector<Double> data);
+
+        Boolean Remove(String name);
+
+        Windows.Foundation.Collections.IVector<Double> GetDataSet(String name);
+
+        Windows.Foundation.Collections.IVector<IInspectable> ListDataSets();
+
+        void ClearDataSets();
+    }
+}
