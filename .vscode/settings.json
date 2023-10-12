@@ -1,3 +1,4 @@
 {
-    "dotnet.defaultSolution": "SoftwareInteroperability.sln"
+    "dotnet.defaultSolution": "SoftwareInteroperability.sln",
+    "cmake.sourceDirectory": "D:/Development/Projects/C++/SoftwareInteroperability/StatsLibCM"
 }
