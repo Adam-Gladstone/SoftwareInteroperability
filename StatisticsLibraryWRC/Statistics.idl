@@ -11,8 +11,10 @@ namespace StatisticsLibraryWRC
 
         Windows.Foundation.Collections.IMap<String, Double> DescriptiveStatistics(Windows.Foundation.Collections.IVector<Double> data);
 
-        Windows.Foundation.Collections.IMap<String, Double> DescriptiveStatistics(Windows.Foundation.Collections.IVector<Double> data, Windows.Foundation.Collections.IVector<String> keys);
+        Windows.Foundation.Collections.IMap<String, Double> DescriptiveStatistics(Windows.Foundation.Collections.IVector<Double> data, 
+            Windows.Foundation.Collections.IVector<String> keys);
 
-        Windows.Foundation.Collections.IMap<String, Double> LinearRegression(Windows.Foundation.Collections.IVector<Double> xs, Windows.Foundation.Collections.IVector<Double> ys);
+        Windows.Foundation.Collections.IMap<String, Double> LinearRegression(Windows.Foundation.Collections.IVector<Double> xs, 
+            Windows.Foundation.Collections.IVector<Double> ys);
     }
 }

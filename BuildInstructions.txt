@@ -1,13 +1,26 @@
 The following document is a brief summary of the development environment for the SoftwareInteroperability solution and projects. It summarises the major external dependencies: those packages that need to be installed and also the compiler and linker dependencies. This document also covers running the tests. This document can be used as a 'quick start' for those who feel comfortable with the required development tools and environment.
 
 External Dependencies
-- Boost version 1.81
-- Python 3.10
+- Boost version 1.81 - (Edit the file "D:\Libraries\boost_1_81_0\tools\build\src\user-config.jam" to build the appropriate version(s) of the python libraries).
+- Python 3.9*
 - Excel (Office365)
 - CodeBlocks 20.03
 - MinGW
 - Rtools4.3
 
+*Note for the author. Currently we have two versions of Python installed.
+Python 3.10 - C:\Users\<user>\AppData\Local\Programs\Python\Python310. This was installed from the python.org redistributable and is what we get when executing 'py' from a terminal.
+Python 3.9 - C:\Users\<user>\anaconda3. This was installed from Anaconda. This is the version we use for running the python test scripts for the 3 python components (StatsPythonRaw, StatsPythonBoost and StatsPythonPyBind). This is a convenience since we run the tests using VSCode which we launch from Anaconda. This will 'install' the conda env (and the path to where the site-packages are located etc) as part of its startup.
+e.g.
+
+	PS D:\Development\Projects\C++\SoftwareInteroperability\StatsPython> C:/Users/adam_/anaconda3/Scripts/activate
+	PS D:\Development\Projects\C++\SoftwareInteroperability\StatsPython> conda activate base
+	PS D:\Development\Projects\C++\SoftwareInteroperability\StatsPython>  & 'C:\Users\adam_\anaconda3\python.exe' 'c:\Users\adam_\.vscode\extensions\ms-python.python-2023.18.0\pythonFiles\lib\python\debugpy\adapter/../..\debugpy\launcher' '57217' '--' 'D:\Development\Projects\C++\SoftwareInteroperability\StatsPython\DescriptiveStatistics.py'
+
+
+
+
+ 
 Visual Studio Community Edition 2022 projects
 1. Download SoftwareInteroperability.zip to a temporary location (Downloads)
 2. Unzip the contents to a development directory - the root directory is SoftwareInteroperability
@@ -19,11 +32,11 @@ Visual Studio Community Edition 2022 projects
 Additional include directories are configurable under the Project settings, Configuration Properties node:
 > C/C++ 
 	Additional Include Directories: 	
-		D:\Users\<user>\Anaconda3\include;
+		C:\Users\<user>\Anaconda3\include;
 		$(BOOST_ROOT);
 > Linker
 	Additional Library Directories:
-		D:\Users\<user>\Anaconda3\libs;
+		C:\Users\<user>\Anaconda3\libs;
 		D:\Libraries\boost_1_81_0\stage\lib;
 
 This assumes the following dependencies are configured:
@@ -32,8 +45,8 @@ Boost
 	Library: D:\Libraries\boost_1_81_0\stage\lib;
 
 Python (all StatsPython... projects)
-	Include: D:\Users\<user>\Anaconda3\include (or wherever your Python.h distribution is located)
-	Library: D:\Users\<user>\Anaconda3\libs;
+	Include: C:\Users\<user>\Anaconda3\include (or wherever your Python.h distribution is located)
+	Library: C:\Users\<user>\Anaconda3\libs;
 
 Excel (for running StatsExcel and StatsATLCOM)
 	Excel location: C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE
