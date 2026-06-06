@@ -18,7 +18,7 @@
 				<Option createDefFile="1" />
 				<Compiler>
 					<Add option="-Wall" />
-					<Add option="-std=c++17" />
+					<Add option="-std=c++20" />
 					<Add option="-g" />
 					<Add directory="../../Statistics/Common/include" />
 				</Compiler>
@@ -33,7 +33,7 @@
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-Wall" />
-					<Add option="-std=c++17" />
+					<Add option="-std=c++20" />
 					<Add directory="../../Statistics/Common/include" />
 				</Compiler>
 				<Linker>
@@ -43,7 +43,11 @@
 		</Build>
 		<Compiler>
 			<Add directory="../Common/include" />
+			<Add directory="$(#boost.include)" />
 		</Compiler>
+		<Linker>
+			<Add directory="$(#boost.lib)" />
+		</Linker>
 		<Unit filename="../Common/include/DataManager.h" />
 		<Unit filename="../Common/include/DescriptiveStatistics.h" />
 		<Unit filename="../Common/include/StatisticalTests.h" />

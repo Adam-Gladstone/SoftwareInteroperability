@@ -6,6 +6,9 @@
 #include <cmath>
 #include <utility>
 
+#pragma warning( disable: 4714 ) // warning C4714: function 'long double __cdecl boost::math::detail::gamma_imp...marked as __forceinline not inlined
+
+
 /*
 * Including this file directly in a clr project and compiling with /clr or /clr:pure
 * caused some issue: i.e. including / compiling boost inside a clr project did not work.

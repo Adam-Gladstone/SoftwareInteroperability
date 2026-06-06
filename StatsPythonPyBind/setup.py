@@ -9,7 +9,7 @@ pyb_module = Extension(
     library_dirs=['D:/Development/Projects/C++/SoftwareInteroperability/x64/Release'],
     libraries=['StatsLib'],
     language='c++',
-    extra_compile_args=['-std=c++17','-Wall'],
+    extra_compile_args=['-std=c++20','-Wall'],
     )
 
 setup(

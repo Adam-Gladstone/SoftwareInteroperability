@@ -12,9 +12,6 @@
 #include <Python.h>
 #endif
 
-// https://github.com/microsoft/onnxruntime/issues/9735
-#define _STL_CRT_SECURE_INVALID_PARAMETER(expr) _CRT_SECURE_INVALID_PARAMETER(expr)
-
 namespace API
 {
     // Retrieve a package of descriptive statistics for the input data

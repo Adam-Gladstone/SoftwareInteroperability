@@ -30,12 +30,19 @@ namespace StatisticsViewerWinUI
         {
             this.InitializeComponent();
 
-            // Get theme choice from LocalSettings.
-            object value = ApplicationData.Current.LocalSettings.Values["themeSetting"];
-            if (value != null)
+            try 
             {
-                // Apply theme choice.
-                App.Current.RequestedTheme = (ApplicationTheme)(int)value;
+                // Get theme choice from LocalSettings.
+                object value = ApplicationData.Current.LocalSettings.Values["themeSetting"];
+                if (value != null)
+                {
+                    // Apply theme choice.
+                    App.Current.RequestedTheme = (ApplicationTheme)(int)value;
+                }
+            }
+            catch 
+            {
+                App.Current.RequestedTheme = ApplicationTheme.Dark;
             }
         }
 

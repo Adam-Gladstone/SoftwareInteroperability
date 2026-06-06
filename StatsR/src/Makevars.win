@@ -14,13 +14,16 @@
 
 # for debugging ...
 PKG_CXXFLAGS = -ggdb -O0 -Wall
+
+CXXFLAGS += -std=c++20 -ggdb -O0 -Wall
 #CXXFLAGS += -ggdb -O0 -Wall
+
 ##CXXFLAGS +=           -O3 -Wall -pipe -Wno-unused -pedantic
 
 PKG_CPPFLAGS=
 
 # for release ...
-#PKG_CXXFLAGS=-std=c++17 -fpermissive 
+PKG_CXXFLAGS = -std=c++20 -fpermissive 
 
 
 PKG_LIBS=D:/Development/Projects/C++/SoftwareInteroperability/StatsLibCB/bin/Debug/libStatsLib.a

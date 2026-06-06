@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1679763069 source:d:\development\projects\c++\softwareinteroperability\statsconsolecb\main.cpp
+1679759469 source:d:\development\projects\c++\softwareinteroperability\statsconsolecb\main.cpp
 	<iostream>
 	<string>
 	<vector>
@@ -16,16 +16,16 @@
 	<utility>
 	<unordered_map>
 
-1678010855 d:\development\projects\c++\softwareinteroperability\common\include\descriptivestatistics.h
+1678007255 d:\development\projects\c++\softwareinteroperability\common\include\descriptivestatistics.h
 	<vector>
 
-1678010855 d:\development\projects\c++\softwareinteroperability\common\include\datamanager.h
+1678007255 d:\development\projects\c++\softwareinteroperability\common\include\datamanager.h
 	<string>
 	<vector>
 	<utility>
 	<unordered_map>
 
-1678010855 d:\development\projects\c++\softwareinteroperability\common\include\statisticaltests.h
+1678007255 d:\development\projects\c++\softwareinteroperability\common\include\statisticaltests.h
 	<vector>
 	<string>
 	<utility>
@@ -63,7 +63,7 @@
 	<utility>
 	<unordered_map>
 
-1678010855 d:\development\projects\c++\softwareinteroperability\common\include\statisticslibrary.h
+1678007255 d:\development\projects\c++\softwareinteroperability\common\include\statisticslibrary.h
 	<vector>
 	<string>
 	<utility>

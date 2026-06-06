@@ -69,6 +69,17 @@
         }
       ],
       "intelliSenseMode": "linux-gcc-x64"
-    }
+    },
+	{
+      "name": "Emscripten",
+      "toolchainFile": "D:/Libraries/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake",
+      "configurationType": "Release",
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "compilers": {
+        "C": "D:/Libraries/emsdk/upstream/emscripten/emcc",
+        "CXX": "D:/Libraries/emsdk/upstream/emscripten/em++"
+      }
+    }	
   ]
 }

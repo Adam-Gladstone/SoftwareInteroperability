@@ -2,21 +2,21 @@ cmake_minimum_required(VERSION 3.15)
 project(StatsLibCM)
 
 # https://cmake.org/cmake/help/latest/prop_tgt/CXX_STANDARD.html
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(CMAKE_CXX_FLAGS_DEBUG "-Wall -std=c++17 -g -std=c++17")
-set(CMAKE_CXX_FLAGS_RELEASE "-O2 -Wall -std=c++17 -std=c++17")
+set(CMAKE_CXX_FLAGS_DEBUG "-Wall -std=c++20 -g -std=c++20")
+set(CMAKE_CXX_FLAGS_RELEASE "-O2 -Wall -std=c++20 -std=c++20")
 
-set(BOOST_ROOT "D:/Libraries/boost_1_81_0/")
+set(BOOST_ROOT "D:/Libraries/boost_1_91_0/")
 set(BOOST_INCLUDE_DIRS "${BOOST_ROOT}/")
 set(BOOST_LIBRARY_DIRS "${BOOST_ROOT}/stage/lib")
 
 set(Boost_USE_STATIC_LIBS ON) 
 set(Boost_USE_MULTITHREADED ON)  
 set(Boost_USE_STATIC_RUNTIME OFF) 
-find_package(Boost 1.81.0 ) 
+find_package(Boost 1.91.0 ) 
 
 if(Boost_FOUND)
     #target_link_libraries(progname Boost::filesystem Boost::regex)

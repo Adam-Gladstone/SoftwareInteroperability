@@ -9,6 +9,6 @@ Description: Part of a series of components built to demonstrate aspects of bind
 License: GPL (>= 2)
 Imports: Rcpp (>= 1.0.5)
 LinkingTo: Rcpp
-SystemRequirements: C++17
+SystemRequirements: C++20
 Suggests: 
     testthat

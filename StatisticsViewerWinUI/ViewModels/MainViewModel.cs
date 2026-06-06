@@ -436,12 +436,14 @@ namespace StatisticsViewerWinUI.ViewModels
             // Save theme choice to LocalSettings. 
             // ApplicationTheme enum values: 0 = Light, 1 = Dark
             DarkMode = true;
+
             ApplicationData.Current.LocalSettings.Values["themeSetting"] = 1;
         }
 
         private void SetLightTheme()
         {
             DarkMode = false;
+
             ApplicationData.Current.LocalSettings.Values["themeSetting"] = 0;
         }
 

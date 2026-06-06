@@ -17,9 +17,10 @@ TEST(DataManagerTests, TestDataManagerCount)
 
 	// Act
 	std::size_t count = manager.CountDataSets();
+	std::size_t result = 2;
 
 	// Assert
-	EXPECT_EQ(count, 2);
+	EXPECT_EQ(count, result);
 }
 
 TEST(DataManagerTests, TestDataManagerAdd)
@@ -33,9 +34,10 @@ TEST(DataManagerTests, TestDataManagerAdd)
 
 	// Act
 	std::size_t count = manager.CountDataSets();
+	std::size_t result = 1;
 
 	// Assert
-	EXPECT_EQ(count, 1);
+	EXPECT_EQ(count, result);
 }
 
 TEST(DataManagerTests, TestDataManagerAddEmptyName)

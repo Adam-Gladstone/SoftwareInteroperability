@@ -1,7 +1,3 @@
-
-// https://github.com/microsoft/onnxruntime/issues/9735
-#define _STL_CRT_SECURE_INVALID_PARAMETER(expr) _CRT_SECURE_INVALID_PARAMETER(expr)
-
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 

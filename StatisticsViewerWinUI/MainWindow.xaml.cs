@@ -2,6 +2,8 @@
 using System;
 using System.IO;
 
+using Windows.UI.ViewManagement;
+
 using WinUIEx;
 
 namespace StatisticsViewerWinUI
@@ -15,11 +17,11 @@ namespace StatisticsViewerWinUI
         {
             this.InitializeComponent();
 
-            Microsoft.UI.Windowing.AppWindow wnd = this.GetAppWindow();
-            wnd.SetIcon(Path.Combine(AppContext.BaseDirectory, "Assets/WindowIcon.ico"));
-            wnd.Title = "Statistics Viewer";
+            AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Assets/WindowIcon.ico"));
+            Content = null;
+            Title = "Statistics Viewer (WinUI)";
 
-            wnd.Resize(new Windows.Graphics.SizeInt32 { Width = 800, Height = 700 });
+            AppWindow.Resize(new Windows.Graphics.SizeInt32 { Width = 800, Height = 700 });
         }
     }
 }

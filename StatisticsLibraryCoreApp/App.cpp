@@ -108,17 +108,12 @@ struct App : implements<App, IFrameworkViewSource, IFrameworkView>
 
         //
         StatisticsLibraryWRC::TTest ttest(5, 9.261460, 0.2278881e-01, 195);
-        bool res = ttest.Perform();
+        ttest.Perform();
 
         auto results = ttest.Results();
         for (auto [key, value] : results)
         {
         }
-
-
-
-
-
     }
 
     void OnPointerMoved(IInspectable const &, PointerEventArgs const & args)
