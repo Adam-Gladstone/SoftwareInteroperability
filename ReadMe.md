@@ -58,6 +58,13 @@ The purpose of the projects is to demonstrate how to connect a simple C++ codeba
 
 The C++ codebase consists of a small library of statistics functions (descriptive statistics, simple linear regression, and hypothesis testing). The projects demonstrate building wrapper components that expose the C++ functionality to other client languages.
 
+### 21/06/2026 Update
+- Updated the C++ language version to C++20.
+- Updated the Boost library to version 1.91.
+
+I have added a further project:
+- [StatsLibScript](README-StatsLibScript.md)
+
 ### Update
 I have added two further projects:
 - [StatisticsLibrary](README-StatisticsLibrary.md)
@@ -104,13 +111,17 @@ The following projects consume the *StatisticsLibraryWRC* component
 
 This project is described here [StatisticsViewer](README-StatisticsViewer.md)
 
+The following project connects the C++ StatsLib component to a web application written in JavaScript. 
+This project is described here [StatsLibScript](README-StatsLibScript.md)
+
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Built With
 
-* Visual Studio 2019
-* C++17
-* Boost 1.81
+* Visual Studio 2022
+* C++20
+* Boost 1.91
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -120,7 +131,7 @@ This project is described here [StatisticsViewer](README-StatisticsViewer.md)
 The project can be downloaded from the GitHub repository in the usual way.
 
 ### Prerequisites
-Boost 1.81
+Boost 1.91
 
 The solution makes use of the following packages
 * Accord 3.8.0
@@ -152,9 +163,9 @@ The solution makes use of the following packages
 * WinUIEx 2.3.1
 * ZedGraph 5.1.7
 
-Additionally, for developing the R package, we use R 4.3.1, rtools 4.3 and RStudio.
+Additionally, for developing the R package, we use R 4.5.2, rtools 4.5 and RStudio.
 
-For the python development, we use Python 3.9.
+For the python development, we use Python 3.13.
 
 ### Installation
 There are no specific installation requirements.
@@ -167,6 +178,7 @@ The wrapper components make use of:
 * Rcpp for connecting to R.
 * Boost.Python and PyBind for connecting to Python.
 * WinRT/C++ for connecting a C# WinUI3.0 desktop application to a C++ static library.
+* emscripten for building a web assembly and JavaScript output for use in a web application.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -174,7 +186,6 @@ The wrapper components make use of:
 ## Usage
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 <!-- ROADMAP -->
 ## Roadmap

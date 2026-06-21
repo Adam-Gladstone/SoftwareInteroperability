@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="lib">
+      <UniqueIdentifier>{839b770c-f8fc-4fb1-9d8c-ef5bd9f7bb1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="web">
+      <UniqueIdentifier>{6406e7f5-5801-4d02-a150-4af7b6108f2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\Header Files">
+      <UniqueIdentifier>{a6f4ea39-2a47-4306-95e3-1da69e1b09de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\Source Files">
+      <UniqueIdentifier>{9878d8d4-dbad-4f3b-95d6-b200b1a39d41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="web\Debug">
+      <UniqueIdentifier>{39b30a31-59d6-4553-8174-0c92262aeac1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="web\Release">
+      <UniqueIdentifier>{07310406-cb47-4bf6-b70c-1b9cf4fc2612}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="lib\Conversion.cpp">
+      <Filter>lib</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Functions.cpp">
+      <Filter>lib</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\module.cpp">
+      <Filter>lib</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Classes.cpp">
+      <Filter>lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\source\DataManager.cpp">
+      <Filter>lib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\source\DescriptiveStatistics.cpp">
+      <Filter>lib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\source\StatisticalTests.cpp">
+      <Filter>lib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\source\StatisticsLibrary.cpp">
+      <Filter>lib\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\source\TimeSeries.cpp">
+      <Filter>lib\Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="lib\Conversion.h">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Functions.h">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\Classes.h">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\include\DataManager.h">
+      <Filter>lib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\include\DescriptiveStatistics.h">
+      <Filter>lib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\include\StatisticalTests.h">
+      <Filter>lib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\include\StatisticsLibrary.h">
+      <Filter>lib\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\include\TimeSeries.h">
+      <Filter>lib\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="web\Debug\index.html">
+      <Filter>web</Filter>
+    </None>
+  </ItemGroup>
+</Project>

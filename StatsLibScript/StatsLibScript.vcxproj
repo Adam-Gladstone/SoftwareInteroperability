@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Emscripten">
+      <Configuration>Debug</Configuration>
+      <Platform>Emscripten</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Emscripten">
+      <Configuration>Release</Configuration>
+      <Platform>Emscripten</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{24e3dec1-fc85-4bbb-8bc2-0b111ae155e1}</ProjectGuid>
+    <RootNamespace>StatsLibScript</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Emscripten'">
+    <ConfigurationType>JSApplication</ConfigurationType>
+    <PlatformToolset>emcc</PlatformToolset>
+    <EmscriptenDir>$(EMSDK)\upstream\emscripten\</EmscriptenDir>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Emscripten'">
+    <ConfigurationType>JSApplication</ConfigurationType>
+    <PlatformToolset>emcc</PlatformToolset>
+    <EmscriptenDir>$(EMSDK)\upstream\emscripten\</EmscriptenDir>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Emscripten'">
+    <LibraryPath>$(BOOST_ROOT)\stage\lib;D:\Development\Projects\C++\SoftwareInteroperability\StatsLibLLVM\bin\Debug</LibraryPath>
+    <OutDir>$(ProjectDir)web\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Emscripten'">
+    <LibraryPath>$(BOOST_ROOT)\stage\lib;D:\Development\Projects\C++\SoftwareInteroperability\StatsLibLLVM\bin\Release</LibraryPath>
+    <OutDir>$(ProjectDir)web\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Emscripten'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(BOOST_ROOT);$(SolutionDir)Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <EmBind>true</EmBind>
+      <AdditionalLinkDirectories>%(AdditionalLinkDirectories)</AdditionalLinkDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Emscripten'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(BOOST_ROOT);$(SolutionDir)Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <EchoCommandLines>true</EchoCommandLines>
+      <ExceptionHandling>true</ExceptionHandling>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <EmBind>true</EmBind>
+      <EchoCommandLines>true</EchoCommandLines>
+      <AdditionalLinkDirectories>%(AdditionalLinkDirectories)</AdditionalLinkDirectories>
+      <AdditionalOptions>-sNO_DISABLE_EXCEPTION_CATCHING %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Common\source\DataManager.cpp" />
+    <ClCompile Include="..\Common\source\DescriptiveStatistics.cpp" />
+    <ClCompile Include="..\Common\source\StatisticalTests.cpp" />
+    <ClCompile Include="..\Common\source\StatisticsLibrary.cpp" />
+    <ClCompile Include="..\Common\source\TimeSeries.cpp" />
+    <ClCompile Include="lib\Conversion.cpp" />
+    <ClCompile Include="lib\Functions.cpp" />
+    <ClCompile Include="lib\module.cpp" />
+    <ClCompile Include="lib\Classes.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Common\include\DataManager.h" />
+    <ClInclude Include="..\Common\include\DescriptiveStatistics.h" />
+    <ClInclude Include="..\Common\include\StatisticalTests.h" />
+    <ClInclude Include="..\Common\include\StatisticsLibrary.h" />
+    <ClInclude Include="..\Common\include\TimeSeries.h" />
+    <ClInclude Include="lib\Conversion.h" />
+    <ClInclude Include="lib\Functions.h" />
+    <ClInclude Include="lib\Classes.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="web\Debug\index.html" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

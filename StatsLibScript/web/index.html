@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Statistics Viewer (Java Script)</title>
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="styles.css">    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="Debug/StatsLibScript.js"></script>
+    
+    <script>
+
+        console.log("Initializing runtime ...");
+
+        Module.onRuntimeInitialized = _ => {
+
+            const v = Module.getVersion();
+            console.log("Version =", v);
+
+            console.log("Initializing DataManager...");
+
+            dataManager = new Module.DataManager();
+
+            console.log("Number of DataSets: ", dataManager.CountDataSets());
+        };
+
+        //
+        // Helper functions for displaying drop-down list(s) of loaded datasets
+        //
+        function createOptionElement(dataSetName) {
+            const option = document.createElement("option");
+            option.textContent = dataSetName;
+            option.value = dataSetName;
+            return option;
+        }
+
+        function removeOptionElements(select) {
+            while (select.firstChild) {
+                select.removeChild(select.lastChild);
+            }
+        }
+
+        //
+        // Build and attach the drop-down list(s) of datasets
+        //
+        function displayDataSets(id1, id2) {
+
+            const dataSets = dataManager.ListDataSets();
+
+            if (id1 != null && id1.trim() != "") {
+                const select = document.getElementById(id1);
+
+                removeOptionElements(select);
+
+                for (let i = 0; i < dataSets.size(); i++) {
+                    const option = createOptionElement(dataSets.get(i));
+                    select.appendChild(option);
+                } 
+            }
+            
+            if (id2 != null && id2.trim() != "") {
+                const select = document.getElementById(id2);
+
+                removeOptionElements(select);
+
+                for (let i = 0; i < dataSets.size(); i++) {
+                    const option = createOptionElement(dataSets.get(i));
+                    select.appendChild(option);
+                } 
+            }
+        }
+
+        //
+        // Populate a column of data (for display only)
+        //
+        function populateDataCard(dataSetName) {
+
+            const column = document.createElement("div");
+            column.className = "column w3-center";
+
+            const card = document.createElement("div");
+            card.className = "card";
+
+            column.appendChild(card);
+
+            // Table
+            const table = document.createElement("table");
+            table.className = "";
+
+            // Header
+            const headers = [dataSetName];
+            const headerRow = document.createElement("tr");
+            headers.forEach(text => {
+                const th = document.createElement("th");
+                th.textContent = text;
+                headerRow.appendChild(th);
+            });
+            table.appendChild(headerRow);
+
+            // Data Rows
+            const data = dataManager.GetDataSet(dataSetName);
+
+            for (let i = 0; i < data.size(); i++) 
+            {
+                const row = document.createElement("tr");
+                const cell = document.createElement("td");
+                cell.textContent = data.get(i);
+                row.appendChild(cell);
+                table.appendChild(row);
+            }
+
+            card.appendChild(table);
+
+            document.getElementById("dataset").appendChild(column);
+        }
+
+        function removeResultsTable(nodeId, tableId) {
+            if(document.getElementById(nodeId) != null) {
+
+                if(document.getElementById(nodeId).hasChildNodes())
+                    document.getElementById(nodeId).removeChild(document.getElementById(tableId));
+            }
+        }
+
+        function displayResults(nodeId, tableId, results) {
+            // Remove any previous results
+            removeResultsTable(nodeId, tableId);
+
+            const table = document.createElement("table");
+            table.id = tableId;
+            table.className = "table w3-border";
+
+            for (let i = 0; i < results.size(); i++) 
+            {
+                const name = results.keys().get(i);
+                const value = results.get(name);
+
+                const row = document.createElement("tr");
+                row.style = (i % 2 == 0) ? "background-color: #f1f1f1;" : "background-color: #ffffff;";
+
+                const cellName = document.createElement("td");
+                cellName.style = "padding-right: 20px";
+
+                const cellValue = document.createElement("td");
+                cellValue.style = "padding-left: 20px";
+
+                cellName.textContent = name;
+                cellValue.textContent = Number(value).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 5});
+
+                row.appendChild(cellName);
+                row.appendChild(cellValue);
+
+                table.appendChild(row);
+            }
+
+            document.getElementById(nodeId).appendChild(table);
+        }
+
+        function displayChart(nodeId, tableId, ids, observations, smoothed) {
+
+            removeResultsTable(nodeId, tableId);
+
+            try {
+                // 0. Create a canvas
+                const canvas = document.createElement("canvas");
+                canvas.id = "line-chart";
+
+                // 1. Get the context of the canvas element
+                const ctx = canvas.getContext("2d");
+
+                // 2. Define shared X-axis labels
+                const xAxisLabels = [];
+                for (let i = 0; i < ids.size(); i++) {
+                    xAxisLabels.push(ids.get(i).toString());
+                }
+
+                // 3. Define the configuration options
+                const config = {
+                    type: 'line', // Specifies a line chart
+                    data: {
+                        labels: xAxisLabels,
+                        datasets: [
+                            {
+                                label: 'Observations',
+                                data: observations, // First data set
+                                borderColor: 'rgb(75, 192, 192)', // Line color
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Fill color under line (if enabled)
+                                tension: 0.2, // Smooths out the lines (0 = straight lines)
+                                borderWidth: 2
+                            },
+                            {
+                                label: 'Smoothed',
+                                data: smoothed, // Second data set
+                                borderColor: 'rgb(255, 99, 132)', // Line color
+                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                tension: 0.2,
+                                borderWidth: 2
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Smoothing Comparison'
+                            },
+                            legend: {
+                                position: 'top' // Places legend at the top
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true // Forces Y-axis to start at 0
+                            }
+                        }
+                    }
+                };
+
+                // 4. Initialize and draw the chart
+                const lineChart = new Chart(ctx, config);
+
+                document.getElementById("moving-average-results").appendChild(canvas);
+            }
+            catch(e) {
+                processException(e);
+            }
+        }
+
+        //
+        // Presentation
+        //
+        function w3_open() {
+            document.getElementById("main").style.marginLeft = "25%";
+            document.getElementById("mySidebar").style.width = "25%";
+            document.getElementById("mySidebar").style.display = "block";
+            document.getElementById("openNav").style.display = 'none';
+        }
+
+        function w3_close() {
+            document.getElementById("main").style.marginLeft = "0%";
+            document.getElementById("mySidebar").style.display = "none";
+            document.getElementById("openNav").style.display = "inline-block";
+        }
+
+        function openTab(tabName) {
+            var i;
+            var x = document.getElementsByClassName("tab");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";  
+            }
+            document.getElementById(tabName).style.display = "block";
+
+            if(tabName == "descriptive-statistics") {
+                displayDataSets("datasets");
+            }
+            else if(tabName == "linear-regression") {
+                displayDataSets("datasets-x", "datasets-y");
+            }
+            else if(tabName == "one-sample-ttest") {
+                displayDataSets("one-sample");
+            }
+            else if(tabName == "two-sample-ttest") {
+                displayDataSets("samples-a", "samples-b");
+            }
+            else if(tabName == "moving-average") {
+                displayDataSets("indexes", "sma");
+            }
+        }
+
+        //
+        // Notification function
+        //
+        function sendNotification(type, heading, text) {
+            var snackbar = document.getElementById("snackbar");
+
+            if(type == "Error") {
+                snackbar.style = "background-color: #ffc7ce;";
+            }
+            else if(type == "Warning") {
+                snackbar.style = "background-color: #ffeb9c;";
+            }
+            else if (type == "Information") {
+                snackbar.style = "background-color: #c6efce;";
+            }
+
+            var title = document.getElementById("heading");
+            title.textContent = heading;
+
+            var message = document.getElementById("message");
+            message.textContent = text;
+
+            snackbar.className = "show";
+            setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); }, 3000);
+        }
+
+        //
+        // Output an exception
+        //
+        function processException(e) {
+            const heading = "Exception: " + e.name;
+            const message = "Message: " + e.message;
+            
+            console.log(message);
+            
+            sendNotification("Error", heading, message);
+        }
+
+    </script>
+
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display: none;" id="mySidebar">
+
+        <h3 class="w3-bar-item">
+
+            <b>Statistics Viewer </b>
+
+            <img src="Images/statistics-viewer.png" alt="Statistics Viewer" style="width: 15%;">
+
+        </h3>
+
+        <button onclick="w3_close()" class="w3-bar-item w3-large">Close &times;</button>        
+
+        <button class="w3-bar-item w3-button" onclick="openTab('load-data')"><i class="fa fa-file-text-o w3-large"></i> Load Data</button>
+        <button class="w3-bar-item w3-button" onclick="openTab('descriptive-statistics')"><i class="fa fa-list w3-large"></i> Descriptive Statistics</button>
+        <button class="w3-bar-item w3-button" onclick="openTab('linear-regression')"><i class="fa fa-bar-chart w3-large"></i> Linear Regression</button>
+        <button class="w3-bar-item w3-button" onclick="openTab('summary-data-ttest')"><i class="fa fa-calculator w3-large"></i> Summary Data T-Test</button>
+        <button class="w3-bar-item w3-button" onclick="openTab('one-sample-ttest')"><i class="fa fa-list-alt w3-large"></i> One-sample T-Test</button>
+        <button class="w3-bar-item w3-button" onclick="openTab('two-sample-ttest')"><i class="fa fa-columns w3-large"></i> Two-sample T-Test</button>
+        <button class="w3-bar-item w3-button" onclick="openTab('moving-average')"><i class="fa fa-line-chart w3-large"></i> Moving Average</button>
+
+    </div>
+
+    <!-- Page Content -->
+    <div id="main">
+
+        <button id="openNav" class="w3-button w3-xlarge" onclick="w3_open()">&#9776;</button>
+
+        <!-- Load Data -->        
+        <div id="load-data" class="w3-container tab">
+            <h2 style="background-color: #a1ccf7;"><i class="fa fa-fw w3-xlarge fa-file-text-o"></i><b> Load Data</b></h2>
+
+            <div>
+
+                <!-- Input form -->
+                <label for="fileInput">Select a file:</label>
+                <input type="file" id="fileInput" accept=".csv" />
+
+                <h3 class="w3-border-bottom">Loaded Datasets</h3>
+                
+                <!-- Dynamically populated after loading -->
+                <div id="dataset" class="row"></div>
+
+                <script>
+                    document.getElementById('fileInput').addEventListener('change', function(event) {
+                        const file = event.target.files[0];
+
+                        if (file) {
+                            Papa.parse(file, {
+                                header: true,
+                                complete: function(results) {
+                                    
+                                    const name = Object.keys(results.data[0])[0];
+
+                                    // Create a vector of values parsed from the file
+                                    let vals = new Module.VectorDouble();                                    
+                                    for (i = 0; i < results.data.length; i++) {
+                                        vals.push_back(parseFloat(results.data[i][name]));
+                                    }
+
+                                    dataManager.Add(name, vals);
+                                   
+                                    console.log("Number of DataSets: ", dataManager.CountDataSets());
+
+                                    populateDataCard(name);
+
+                                    const message = "Loaded dataset: " + name;
+                                    sendNotification("Information", "Load Data", message);
+                                },
+                                error: function(error) {
+                                    console.error('Error parsing CSV:', error);
+                                }
+                            });
+                        }
+                    });
+                </script>
+
+            </div>
+
+        </div>
+
+        <!-- Descriptive Statistics -->
+        <div id="descriptive-statistics" class="w3-container tab" style="display:none">
+            <h2 style="background-color: #a1ccf7;"><i class="fa fa-fw w3-xlarge fa-list"></i><b> Descriptive Statistics</b></h2>
+
+            <!-- Inputs Panel -->
+            <div class="w3-third">
+
+                <h3 class="w3-border-bottom">DataSets</h3>
+
+                <!-- Inputs for: Descriptive Statistics -->
+                <div id="inputs">
+
+                    <label for="datasets">Choose a dataset:</label>
+
+                    <!-- List of available DataSets -->
+                    <select name="datasets" id="datasets">
+                    </select>
+
+                    <br><br>
+                    <input class="w3-button w3-round-large w3-padding-large" 
+                            style="background-color: #82bcef; font-weight: bold;"
+                            type="submit" value="Run &raquo;" 
+                            onclick="runDescriptiveStatistics()">
+
+                </div>
+
+                <!-- Process inputs -->
+                <script>
+                    function runDescriptiveStatistics() {
+
+                        const dataSetName = document.getElementById('datasets').value;
+
+                        try {
+                            const values = dataManager.GetDataSet(dataSetName);
+                            
+                            const results = Module.DescriptiveStatistics(values);
+
+                            displayResults("descriptive-statistics-results", "descriptive-statistics-table", results);
+                        }
+                        catch(e) {
+                            processException(e);
+                        }
+                    }
+                </script>
+
+            </div>
+
+            <!-- Results Panel -->
+            <div class="w3-third">
+                
+                <h3 class="w3-border-bottom">Results</h3>
+
+                <!-- Container for the results set -->
+                <div id="descriptive-statistics-results" class="w3-container"></div>
+
+            </div>
+
+        </div>
+
+        <!-- Linear Regression -->
+        <div id="linear-regression" class="w3-container tab" style="display:none">
+
+            <h2 style="background-color: #a1ccf7;"><i class="fa fa-fw w3-xlarge fa-bar-chart"></i><b> Linear Regression</b></h2>
+
+            <!-- Inputs Panel -->
+            <div class="w3-third">
+
+                <h3 class="w3-border-bottom">DataSets</h3>
+
+                <!-- Inputs for: Linear Regression -->
+                <div id="inputs">
+
+                    <label for="datasets">Independent Data (x's):</label>
+
+                    <!-- List of DataSets X's -->
+                    <select name="datasets" id="datasets-x">
+                    </select>
+
+                    <br>
+                    <label for="datasets">Dependent Data (y's):</label>
+
+                    <!-- List of DataSets Y's -->
+                    <select name="datasets" id="datasets-y">
+                    </select>
+
+                    <br><br>
+                    <input class="w3-button w3-round-large w3-padding-large" 
+                            style="background-color: #82bcef; font-weight: bold;"
+                            type="submit" value="Run &raquo;" 
+                            onclick="runLinearRegression()">
+
+                </div>
+
+                <!-- Process inputs -->
+                <script>
+                    function runLinearRegression() {
+                        const dataSetNameX = document.getElementById('datasets-x').value;
+                        const dataSetNameY = document.getElementById('datasets-y').value;
+
+                        try {
+                            const xs = dataManager.GetDataSet(dataSetNameX);
+                            const ys = dataManager.GetDataSet(dataSetNameY);
+
+                            const results = Module.LinearRegression(xs, ys);
+
+                            displayResults("linear-regression-results", "linear-regression-table", results);
+                        }
+                        catch(e){
+                            processException(e);
+                        }
+                    }
+                </script>
+
+            </div>
+
+            <!-- Results Panel -->
+            <div class="w3-third">
+                
+                <h3 class="w3-border-bottom">Results</h3>
+
+                <!-- Container for the results set -->
+                <div id="linear-regression-results" class="w3-container"></div>
+
+            </div>
+
+        </div>
+
+        <!-- Summary Data T-Test -->
+        <div id="summary-data-ttest" class="w3-container tab" style="display:none">
+            
+            <h2 style="background-color: #a1ccf7;"><i class="fa fa-fw w3-xlarge fa-calculator"></i><b> Summary Data T-Test</b></h2>
+
+            <!-- Inputs Panel -->
+            <div class="w3-third">
+
+                <!-- Inputs for: Summary Data T-Test -->
+                <h3 class="w3-border-bottom">Inputs</h3>
+
+                <p>
+                    <label for="mu0">mu0:</label>
+                    <input type="text" inputmode="decimal" id="mu0" name="mu0" required/>
+                </p>
+
+                <p>
+                    <label for="xbar">x-bar:</label>
+                    <input type="text" inputmode="decimal" id="xbar" name="xbar" required/>
+                </p>
+
+                <p>
+                    <label for="sx">sx:</label>
+                    <input type="text" inputmode="decimal" id="sx" name="sx" required/>
+                </p>
+
+                <p>
+                    <label for="N">N:</label>
+                    <input type="text" inputmode="decimal" id="N" name="N" required/>
+                </p>
+
+                <br><br>
+                <input class="w3-button w3-round-large w3-padding-large" 
+                            style="background-color: #82bcef; font-weight: bold;"
+                            type="submit" value="Run &raquo;" 
+                            onclick="runSummaryDataTTest()"/>
+
+                <!-- Process inputs -->
+                <script>
+                    function runSummaryDataTTest() {
+                        const mu0 = parseFloat(document.getElementById('mu0').value);
+                        const xbar = parseFloat(document.getElementById('xbar').value);
+                        const sx = parseFloat(document.getElementById('sx').value);
+                        const N = parseFloat(document.getElementById('N').value);
+
+                        try {
+                            const ttest = new Module.TTest(mu0, xbar, sx, N);
+                            const succeeded = ttest.Perform();
+                            if(succeeded) {
+                                const results = ttest.Results();
+
+                                displayResults("summary-data-results", "summary-data-table", results);
+                            } else {
+                                sendNotification("Warning", "Summary Data", "The summary data t-test failed.");
+                            }
+                        }
+                        catch(e){
+                            processException(e);
+                        }
+                    }
+                </script>
+
+            </div>
+
+            <!-- Results Panel -->
+            <div class="w3-third">
+                
+                <h3 class="w3-border-bottom">Results</h3>
+
+                <!-- Container for the results set -->
+                <div id="summary-data-results" class="w3-container"></div>
+
+            </div>
+
+        </div>
+
+        <!-- One-sample T-Test -->
+        <div id="one-sample-ttest" class="w3-container tab" style="display:none">
+            
+            <h2 style="background-color: #a1ccf7;"><i class="fa fa-fw w3-xlarge fa-list-alt"></i><b> One-sample T-Test</b></h2>
+
+            <!-- Inputs Panel -->
+            <div class="w3-third">
+
+                <!-- Inputs for: One-sample T-test -->
+                <h3 class="w3-border-bottom">Inputs</h3>
+
+                <div class="w3-container">
+                    <p>
+                        <label for="one-sample-mu0">mu0:</label>
+                        <input type="text" inputmode="decimal" id="one-sample-mu0" name="one-sample-mu0" required/>
+                    </p>
+
+                    <label for="one-sample">Choose a dataset:</label>
+
+                    <!-- List of DataSets -->
+                    <select name="one-sample" id="one-sample">
+                    </select>
+
+                    <br><br>
+                    <input class="w3-button w3-round-large w3-padding-large" 
+                            style="background-color: #82bcef; font-weight: bold;"
+                            type="submit" value="Run &raquo;" 
+                            onclick="runOneSampleTTest()"/>
+                </div>
+
+                <!-- Process inputs -->
+                <script>
+                    function runOneSampleTTest() {
+                        const mu0 = parseFloat(document.getElementById('one-sample-mu0').value);
+                        const dataSetName = document.getElementById('one-sample').value;
+
+                        try {
+                            const sample = dataManager.GetDataSet(dataSetName);
+                            const ttest = new Module.TTest("dummy", mu0, sample);
+                            const succeeded = ttest.Perform();
+                            if(succeeded) {
+                                const results = ttest.Results();
+
+                                displayResults("one-sample-results", "one-sample-table", results);
+                            } else {
+                                sendNotification("Warning", "One-sample", "The one-sample t-test failed.");
+                            }
+                        }
+                        catch(e){
+                            processException(e);
+                        }
+                    }
+                </script>
+
+            </div>
+
+            <!-- Results Panel -->
+            <div class="w3-third">
+                
+                <h3 class="w3-border-bottom">Results</h3>
+
+                <!-- Container for the results set -->
+                <div id="one-sample-results" class="w3-container"></div>
+
+            </div>
+
+        </div>
+
+        <!-- Two-sample T-Test -->
+        <div id="two-sample-ttest" class="w3-container tab" style="display:none">
+            
+            <h2 style="background-color: #a1ccf7;"><i class="fa fa-fw w3-xlarge fa-columns"></i><b> Two-sample T-Test</b></h2>
+
+            <!-- Inputs Panel -->
+            <div class="w3-third">
+
+                <!-- Inputs for: Two-sample T-test -->
+                <h3 class="w3-border-bottom">Inputs</h3>
+
+                <div class="w3-container">
+
+                    <label for="samples">Sample A:</label>
+
+                    <!-- List of DataSets - Sample A -->
+                    <select name="samples-a" id="samples-a">
+                    </select>
+
+                    <br>
+                    <label for="samples">Sample B:</label>
+
+                    <!-- List of DataSets Sample B -->
+                    <select name="samples-b" id="samples-b">
+                    </select>
+
+                    <br><br>
+                    <input class="w3-button w3-round-large w3-padding-large" 
+                            style="background-color: #82bcef; font-weight: bold;"
+                            type="submit" value="Run &raquo;" 
+                        onclick="runTwoSampleTTest()">
+                </div>
+
+                <!-- Process inputs -->
+                <script>
+                    function runTwoSampleTTest() {
+                        const dataSetNameA = document.getElementById('samples-a').value;
+                        const dataSetNameB = document.getElementById('samples-b').value;
+
+                        try {
+                            const sampleA = dataManager.GetDataSet(dataSetNameA);
+                            const sampleB = dataManager.GetDataSet(dataSetNameB);
+
+                            const ttest = new Module.TTest(sampleA, sampleB);
+
+                            const succeeded = ttest.Perform();
+                            if(succeeded) {
+
+                                const results = ttest.Results();
+
+                                displayResults("two-sample-results", "two-sample-table", results);
+                            }
+                            else {
+                                sendNotification("Warning", "Two-sample", "The two-sample t-test failed.");
+                            }
+                        }
+                        catch(e) {
+                            processException(e);
+                        }
+                    }
+                </script>
+
+            </div>
+
+            <!-- Results Panel -->
+            <div class="w3-third">
+                
+                <h3 class="w3-border-bottom">Results</h3>
+
+                <!-- Container for the results set -->
+                <div id="two-sample-results" class="w3-container"></div>
+
+            </div>
+
+        </div>
+
+        <!-- Moving Average -->
+        <div id="moving-average" class="w3-container tab" style="display:none">
+            
+            <h2 style="background-color: #a1ccf7;"><i class="fa fa-fw w3-xlarge fa-line-chart"></i><b> Simple Moving Average</b></h2>
+
+            <!-- Inputs Panel -->
+            <div class="w3-third">
+
+                <!-- Inputs for: Moving Average -->
+                <h3 class="w3-border-bottom">Inputs</h3>
+
+                <div class="w3-container">
+
+                    <label for="indexes">Index/Dates:</label>
+
+                    <!-- List of DataSets - Index -->
+                    <select name="indexes" id="indexes">
+                    </select>
+
+                    <br>
+
+                    <label for="sma">Observations:</label>
+
+                    <!-- List of DataSets - Observations -->
+                    <select name="sma" id="sma">
+                    </select>
+
+                    <p>
+                        <label for="window">Window:</label>
+                        <input type="text" inputmode="decimal" id="window" name="window" required/>
+                    </p>
+
+                    <br><br>
+                    <input class="w3-button w3-round-large w3-padding-large" 
+                            style="background-color: #82bcef; font-weight: bold;"
+                            type="submit" value="Run &raquo;" 
+                            onclick="runMovingAverage()">
+                </div>
+
+                <!-- Process inputs -->
+                <script>
+                    function runMovingAverage() {
+                        const indexName = document.getElementById('indexes').value;
+                        const smaName = document.getElementById('sma').value;
+                        const window = parseFloat(document.getElementById('window').value);
+
+                        try {
+                            const vals = dataManager.GetDataSet(indexName);
+
+                            // Convert double to long
+                            let ids = new Module.VectorLong();
+                            for (let i = 0; i < vals.size(); i++) {
+                                ids.push_back(vals.get(i));
+                            }
+
+                            const obs = dataManager.GetDataSet(smaName);
+                            const ts = new Module.TimeSeries(ids, obs);
+                            const results = ts.MovingAverage(window);
+
+                            // Convert VectorDoubles to (JS)Array
+                            let observations = new Array(obs.size()).fill(0).map((_, id) => obs.get(id));
+                            let smoothed = new Array(results.size()).fill(0).map((_, id) => results.get(id));
+
+                            displayChart("moving-average-results", "line-chart", ids, observations, smoothed);
+                        }
+                        catch(e) {
+                            processException(e);
+                        }
+                    }
+                </script>
+
+            </div>
+
+            <!-- Results Panel -->
+            <div class="w3-twothird">
+                
+                <h3 class="w3-border-bottom">Results</h3>
+
+                <!-- Container for the results set -->
+                <div id="moving-average-results" class="chart-container">
+                    <canvas id="line-chart"></canvas>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Snackbar -->
+    <div id="snackbar">
+       
+        <h4 id="heading" style="font-weight: bold;"><b></b></h4>
+
+        <p id="message"></p>
+
+    </div>
+
+</body>
+
+</html>
