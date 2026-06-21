@@ -7,7 +7,7 @@
     <img src="Images/statistics-viewer.png" alt="logo" width="80" height="80">
   </a>
 
-  <h3 align="center">StatisticsLibrary</h3>
+  <h3 align="center">StatsLibScript</h3>
 
   <p align="center">
     <br />
